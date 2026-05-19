@@ -1,0 +1,11 @@
+outputs/
+gadpo.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+*.bin
+*.safetensors
+*.pt
+wandb/
+runs/

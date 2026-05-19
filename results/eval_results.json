@@ -1,0 +1,49 @@
+{
+  "experiment": "GA-DPO vs DPO Baseline on UltraFeedback",
+  "model_0.5B": "Qwen2.5-0.5B-Instruct + QLoRA (r=16)",
+  "model_1.5B": "Qwen2.5-1.5B-Instruct + QLoRA (r=16)",
+  "data": "5000 samples, max_length=512, 1 epoch",
+  "results": {
+    "qwen_0.5B": {
+      "dpo_baseline": {
+        "eval_loss": 0.5929,
+        "rewards_chosen": 0.1094,
+        "rewards_rejected": -0.2937,
+        "rewards_margins": 0.4031,
+        "rewards_accuracies": 0.644
+      },
+      "gadpo_geo_only": {
+        "eval_loss": 0.5521,
+        "rewards_chosen": 0.002784,
+        "rewards_rejected": -0.4306,
+        "rewards_margins": 0.4333,
+        "rewards_accuracies": 0.64,
+        "geometry_cos_sim_mean": 0.6728,
+        "geometry_weight_std": 0.5351
+      }
+    },
+    "qwen_1.5B": {
+      "dpo_baseline": {
+        "eval_loss": 0.6681,
+        "rewards_chosen": 0.003447,
+        "rewards_rejected": -0.05704,
+        "rewards_margins": 0.06049,
+        "rewards_accuracies": 0.588
+      },
+      "gadpo_geo_only": {
+        "eval_loss": 0.6496,
+        "rewards_chosen": -0.0197,
+        "rewards_rejected": -0.09231,
+        "rewards_margins": 0.0726,
+        "rewards_accuracies": 0.564,
+        "geometry_cos_sim_mean": 0.7033,
+        "geometry_weight_std": 0.5292
+      }
+    }
+  },
+  "notes": {
+    "eval_loss": "Comparable: GA-DPO eval uses uniform weights (same as DPO baseline)",
+    "rewards": "Primary comparison metric; computed identically for both methods",
+    "1.5B_low_margins": "5000 samples / 148 steps insufficient for 1.5B; full run needs 20k samples"
+  }
+}

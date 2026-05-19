@@ -1,0 +1,54 @@
+model:
+  model_name: "C:/qwen05b"
+  load_in_4bit: true
+  bnb_4bit_compute_dtype: "bfloat16"
+
+lora:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+
+data:
+  dataset_name: "argilla/ultrafeedback-binarized-preferences-cleaned"
+  max_prompt_length: 256
+  max_length: 512
+  val_ratio: 0.05
+  min_margin: 0.0
+  max_samples: 5000
+  seed: 42
+
+training:
+  output_dir: "outputs/gadpo_geo_only_qwen_0_5b"
+  num_train_epochs: 1
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 16
+  learning_rate: 5.0e-5
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.1
+  beta: 0.1
+  bf16: true
+  gradient_checkpointing: true
+  max_grad_norm: 1.0
+  logging_steps: 10
+  save_steps: 200
+  eval_steps: 200
+  seed: 42
+  report_to: "tensorboard"
+  run_name: "gadpo-geo-only-qwen-0.5b"
+
+geometry:
+  cos_sim_scale: 1.0
+  distance_scale: 1.0
+  weight_temperature: 2.0
+  clip_min: 0.1
+  clip_max: 5.0
+  density_radius: 0.5
+  density_k: 4
+
+curriculum:
+  enabled: false
+  strategy: "cosine"
+  start_quantile: 0.3
+  end_quantile: 1.0
+  warmup_ratio: 0.2
