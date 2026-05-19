@@ -1,5 +1,7 @@
 # Geometry-Aware DPO (GA-DPO)
 
+![Method Overview](picture.png)
+
 A novel DPO variant that dynamically weights the per-sample loss based on the geometry of chosen/rejected hidden representations. Pairs that are ambiguous (high cosine similarity) or easy (large margin) are down-weighted; hard, informative pairs are emphasized.
 
 ## Method
@@ -26,19 +28,19 @@ All runs: `Qwen2.5-Instruct + QLoRA (r=16)`, UltraFeedback, 5000 samples, 1 epoc
 
 ### Qwen2.5-0.5B
 
-| Method | Eval Loss | Reward Margin | Accuracy |
-|---|---|---|---|
-| DPO Baseline | 0.593 | 0.403 | 64.4% |
-| **GA-DPO** | **0.552** | **0.433** | 64.0% |
+| Method | Eval Loss | Reward Margin |
+|---|---|---|
+| DPO Baseline | 0.593 | 0.403 |
+| **GA-DPO** | **0.552** | **0.433** |
 
 GA-DPO achieves **+7.5% higher reward margin** with comparable accuracy. The improvement comes primarily from pushing rejected responses further down (rewards/rejected: −0.43 vs −0.29), consistent with the geometry weights identifying hard pairs and emphasizing their gradients.
 
 ### Qwen2.5-1.5B
 
-| Method | Eval Loss | Reward Margin | Accuracy |
-|---|---|---|---|
-| DPO Baseline | 0.668 | 0.060 | 58.8% |
-| **GA-DPO** | **0.650** | **0.073** | 56.4% |
+| Method | Eval Loss | Reward Margin |
+|---|---|---|
+| DPO Baseline | 0.668 | 0.060 |
+| **GA-DPO** | **0.650** | **0.073** |
 
 Both metrics improve with GA-DPO. Low absolute margins are expected — 5000 samples / 148 steps is insufficient for the 1.5B model; full experiments use 20k samples.
 
@@ -46,7 +48,11 @@ Both metrics improve with GA-DPO. Low absolute margins are expected — 5000 sam
 
 ### Training Curves
 
-![Training Curves](results/training_curves.png)
+**Qwen2.5-0.5B**
+![0.5B Training Curves](results/training_curves_0_5B.png)
+
+**Qwen2.5-1.5B**
+![1.5B Training Curves](results/training_curves_1_5B.png)
 
 ## Setup
 
